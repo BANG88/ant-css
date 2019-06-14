@@ -5,7 +5,9 @@ const less = require("less");
 const LessPluginCleanCSS = require("less-plugin-clean-css");
 
 const mapping = {
-  button: "AntDesign.Button/content",
+  // for base style
+  "": "AntDesign.BaseComponent",
+  button: "AntDesign.Button",
   "date-picker": "",
   input: "",
   notification: "",
@@ -79,7 +81,7 @@ function lessToCss(component, cssOutput) {
     })
     .then(
       function(output) {
-        const dist = path.join("../src/", cssOutput);
+        const dist = path.join("../src/", cssOutput, "content");
         if (fs.existsSync(dist)) {
           fs.writeFileSync(path.join(dist, "style.css"), output.css);
           console.log("[%s] done", component);
@@ -117,3 +119,4 @@ function fetchAntDesign() {
 }
 
 fetchAntDesign();
+
