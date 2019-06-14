@@ -8,64 +8,64 @@ const mapping = {
   // for base style
   "": "AntDesign.BaseComponent",
   button: "AntDesign.Button",
-  "date-picker": "",
-  input: "",
-  notification: "",
-  skeleton: "",
-  "time-picker": "",
-  calendar: "",
-  descriptions: "",
-  "input-number": "",
-  "page-header": "",
-  slider: "",
-  timeline: "",
-  affix: "",
-  card: "",
-  divider: "",
-  layout: "",
-  pagination: "",
-  spin: "",
-  tooltip: "",
-  alert: "",
-  carousel: "",
-  drawer: "",
-  list: "",
-  statistic: "",
-  transfer: "",
-  anchor: "",
-  cascader: "",
-  dropdown: "",
-  popover: "",
-  steps: "",
-  tree: "",
-  "auto-complete": "",
-  checkbox: "",
-  empty: "",
-  mention: "",
-  progress: "",
-  "tree-select": "",
-  avatar: "",
-  form: "",
-  mentions: "",
-  radio: "",
-  switch: "",
-  typography: "",
-  "back-top": "",
-  collapse: "",
-  grid: "",
-  menu: "",
-  rate: "",
-  table: "",
-  upload: "",
-  badge: "",
-  comment: "",
-  icon: "",
-  message: "",
-  tabs: "",
-  breadcrumb: "",
-  modal: "",
-  select: "",
-  tag: ""
+  "date-picker": "AntDesign.DatePicker",
+  input: "AntDesign.Input",
+  notification: "AntDesign.Notification",
+  skeleton: "AntDesign.Skeleton",
+  "time-picker": "AntDesign.TimePicker",
+  calendar: "AntDesign.Calendar",
+  descriptions: "AntDesign.",
+  "input-number": "AntDesign.InputNumber",
+  "page-header": "AntDesign.PageHeader",
+  slider: "AntDesign.Slider",
+  timeline: "AntDesign.Timeline",
+  affix: "AntDesign.Affix",
+  card: "AntDesign.Card",
+  divider: "AntDesign.Divider",
+  layout: "AntDesign.Layout",
+  pagination: "AntDesign.Pagination",
+  spin: "AntDesign.Spin",
+  tooltip: "AntDesign.Tooltip",
+  alert: "AntDesign.Alert",
+  carousel: "AntDesign.Carousel",
+  drawer: "AntDesign.Drawer",
+  list: "AntDesign.List",
+  statistic: "AntDesign.Statistic",
+  transfer: "AntDesign.Transfer",
+  anchor: "AntDesign.Anchor",
+  cascader: "AntDesign.Cascader",
+  dropdown: "AntDesign.Dropdown",
+  popover: "AntDesign.Popover",
+  steps: "AntDesign.Steps",
+  tree: "AntDesign.Tree",
+  "auto-complete": "AntDesign.AutoComplete",
+  checkbox: "AntDesign.Checkbox",
+  empty: "AntDesign.Empty",
+  mention: "AntDesign.Mention",
+  progress: "AntDesign.Progress",
+  "tree-select": "AntDesign.TreeSelect",
+  avatar: "AntDesign.Avatar",
+  form: "AntDesign.Form",
+  mentions: "AntDesign.Mentions",
+  radio: "AntDesign.Radio",
+  switch: "AntDesign.Switch",
+  typography: "AntDesign.Typography",
+  "back-top": "AntDesign.BackTop",
+  collapse: "AntDesign.Collapse",
+  grid: "AntDesign.Grid",
+  menu: "AntDesign.Menu",
+  rate: "AntDesign.Rate",
+  table: "AntDesign.Table",
+  upload: "AntDesign.Upload",
+  badge: "AntDesign.Badge",
+  comment: "AntDesign.Comment",
+  icon: "AntDesign.Icon",
+  message: "AntDesign.Message",
+  tabs: "AntDesign.Tabs",
+  breadcrumb: "AntDesign.Breadcrumb",
+  modal: "AntDesign.Modal",
+  select: "AntDesign.Select",
+  tag: "AntDesign.Tag"
 };
 
 function lessToCss(component, cssOutput) {
@@ -93,9 +93,17 @@ function lessToCss(component, cssOutput) {
     );
 }
 
-function fetchAntDesign() {
+function convert() {
+  for (const m in mapping) {
+    if (mapping.hasOwnProperty(m)) {
+      const element = mapping[m];
+      if (!element) continue;
+      lessToCss(m, element);
+    }
+  }
+}
+function fetchAntDesign(cb) {
   const dist = __dirname + "/ant-design";
-
   if (!fs.existsSync(dist)) {
     fs.mkdirSync(dist);
   }
@@ -107,16 +115,14 @@ function fetchAntDesign() {
       );
       return;
     }
-
-    for (const m in mapping) {
-      if (mapping.hasOwnProperty(m)) {
-        const element = mapping[m];
-        if (!element) continue;
-        lessToCss(m, element);
-      }
-    }
+    cb && cb();
   });
 }
 
-fetchAntDesign();
+const args = process.argv;
 
+if (args && args[2] === "--skip") {
+  convert();
+} else {
+  fetchAntDesign(convert);
+}
