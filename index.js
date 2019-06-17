@@ -59,7 +59,7 @@ const mapping = {
   upload: "AntDesign.Upload",
   badge: "AntDesign.Badge",
   comment: "AntDesign.Comment",
-  icon: "AntDesign.Icon",
+  // icon: "AntDesign.Icon",
   message: "AntDesign.Message",
   tabs: "AntDesign.Tabs",
   breadcrumb: "AntDesign.Breadcrumb",
