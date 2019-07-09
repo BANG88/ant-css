@@ -68,15 +68,17 @@ const mapping = {
   tag: "AntDesign.Tag"
 };
 
+const AntDesignRepo = process.env["ant"] || path.join("./ant-design");
+
 function lessToCss(component, cssOutput) {
   cleanCSSPlugin = new LessPluginCleanCSS();
   console.log("[current]: %s", component);
-  const styleDist = "./ant-design/components/" + component + "/style/";
+  const styleDist = AntDesignRepo + "/components/" + component + "/style/";
   less
     .render(fs.readFileSync(styleDist + "index.less", "utf-8"), {
       plugins: [cleanCSSPlugin],
       javascriptEnabled: true,
-      paths: ["./ant-design/components/style/", styleDist],
+      paths: [AntDesignRepo + "/components/style/", styleDist],
       cleanCss: true
     })
     .then(
